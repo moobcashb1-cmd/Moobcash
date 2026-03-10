@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOBCASH | وكيل شحن معتمد</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&family=Noto+Kufi+Arabic:wght@800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .premium-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04); }
+        .platform-btn { transition: all 0.3s ease; border: 2px solid #f1f5f9; background: #ffffff; height: 105px; cursor: pointer; }
+        .platform-label { font-weight: 900; font-size: 0.72rem; margin-top: 8px; color: #334155; }
+        input:checked + .platform-btn { border-color: #1e293b; background: #f8fafc; transform: scale(1.05); }
+        input:checked + .platform-btn .platform-label { color: #2563eb; }
+        .platform-img { width: 42px; height: 42px; object-fit: contain; }
+        .input-premium { background: #fdfdfd; border: 2px solid #edf2f7; transition: all 0.2s ease; }
+        .input-premium:focus { border-color: #1e293b; outline: none; }
+        
+        /* أنيميشن الدوران */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s linear infinite; margin-left: 12px; }
+    </style>
+</head>
+<body class="antialiased text-right">
+
+    <nav class="py-8 px-8 max-w-[550px] mx-auto flex justify-between items-center">
+        <div class="text-3xl font-black tracking-tighter text-slate-900 italic">MOB<span class="text-blue-600">CASH</span></div>
+        <div class="bg-slate-900 text-white px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide">وكيل شحن</div>
+    </nav>
+
+    <main class="max-w-[550px] mx-auto px-6 pb-20">
+        <div class="mb-8 text-right px-1">
+            <h1 class="text-2xl font-black text-slate-900 mb-1">بوابة الشحن المباشر</h1>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-wide">نظام معالجة فوري وآمن</p>
+        </div>
+
+        <div class="premium-card p-8 rounded-[2.5rem]">
+            <form id="pay-form" class="space-y-8">
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="1XBET" class="hidden" checked onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.ibb.co/3YjthCY7/1xbet.png" class="platform-img">
+                            <span class="platform-label uppercase">1XBET</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="BETWINNER" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.postimg.cc/k25Lt9jP/betwinner.png" class="platform-img">
+                            <span class="platform-label uppercase">BETWINNER</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="MEGAPARI" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.postimg.cc/LnWGfwGr/megapari.png" class="platform-img">
+                            <span class="platform-label uppercase">MEGAPARI</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="MELBET" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.ibb.co/Y43xFp2x/Melbet-Logo-300x172.webp" class="platform-img">
+                            <span class="platform-label uppercase">MELBET</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="GOBET" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.postimg.cc/Y4MRmx24/gobet.png" class="platform-img">
+                            <span class="platform-label uppercase">GOBET</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="MYSTAKE" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.postimg.cc/z38LZPtQ/mystake.png" class="platform-img">
+                            <span class="platform-label uppercase">MYSTAKE</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="space-y-6 pt-2 text-right">
+                    <div class="group">
+                        <label id="account-label" class="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-1 block mb-2">رقم الحساب (ID)</label>
+                        <input id="account-input" type="text" inputmode="numeric" maxlength="15" placeholder="أدخل ID الحساب" oninput="validateInput(this)" class="input-premium w-full p-5 rounded-2xl text-sm font-black text-right" required>
+                    </div>
+
+                    <div class="group">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-1 block mb-2">المبلغ المطلوب (MAD)</label>
+                        <div class="relative">
+                            <input type="number" placeholder="0.00" class="input-premium w-full p-5 rounded-2xl text-2xl font-black text-slate-900 text-right" required>
+                            <span class="absolute left-6 top-5 text-slate-400 font-black">MAD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full bg-slate-900 text-white font-black py-6 rounded-3xl flex items-center justify-center transition-all hover:bg-slate-800 uppercase tracking-[0.2em] text-[11px] shadow-2xl shadow-slate-200">
+                    <span id="btn-text">إرسال طلب الشحن</span>
+                    <div id="loader" class="spinner"></div>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // منع الحروف وتحديد 15 رقم للـ ID
+        function validateInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+            if (input.value.length > 15) input.value = input.value.slice(0, 15);
+        }
+
+        // تحديث الحقل عند اختيار MyStake
+        function updateLabel(platform) {
+            const label = document.getElementById('account-label');
+            const input = document.getElementById('account-input');
+            if (platform === 'MYSTAKE') {
+                label.innerText = 'Wallet Address Tether USD (ERC20)';
+                input.placeholder = 'أدخل عنوان المحفظة';
+                input.oninput = null; // السماح بالحروف للمحفظة
+                input.maxLength = 100;
+            } else {
+                label.innerText = 'رقم الحساب (ID)';
+                input.placeholder = 'أدخل ID الحساب';
+                input.maxLength = 15;
+                input.oninput = function() { validateInput(this); };
+                validateInput(input);
+            }
+        }
+
+        // معالجة الإرسال والتحويل
+        document.getElementById('pay-form').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const loader = document.getElementById('loader');
+            const text = document.getElementById('btn-text');
+
+            // تفعيل الأنيميشن
+            btn.disabled = true;
+            loader.style.display = 'block';
+            text.innerText = 'جاري التحويل...';
+
+            // التحويل لصفحة payment.html داخل مجلد w بعد ثانيتين
+            setTimeout(() => {
+                window.location.href = 'w/payment.html';
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
