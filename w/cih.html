@@ -3,83 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دفع CIH Bank | MOBCASH</title>
+    <title>CIH Bank | MOBCASH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; overflow-x: hidden; }
         .toolbar { background: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 50; }
         .header-title { font-size: 18px; font-weight: 900; color: #1e293b; }
-        .header-logo { height: 26px; width: auto; object-fit: contain; }
-        .back-btn { font-size: 11px; color: #cbd5e1; cursor: pointer; text-decoration: none; }
-        .middle-logo-container { display: flex; justify-content: center; margin-top: 25px; margin-bottom: 20px; }
-        .middle-logo { height: 35px; width: auto; object-fit: contain; }
-        .amount-info-card { background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; margin: 0 auto; text-align: center; max-width: 92%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .header-logo { height: 26px; width: auto; }
+        .amount-info-card { background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; margin: 15px auto; text-align: center; max-width: 92%; }
         .amount-text { font-size: 34px; font-weight: 900; color: #1e293b; }
-        .account-id-text { font-size: 12px; color: #64748b; font-weight: 700; }
-        .id-number { font-weight: 800; color: #1e293b; }
         .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
         .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .label { font-size: 12px; color: #94a3b8; font-weight: 800; display: block; margin-bottom: 4px; }
-        .value { font-size: 13px; font-weight: 800; color: #1e293b; direction: ltr; }
-        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
-        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin: 20px auto; display: block; text-align: center; border: none; cursor: pointer; }
+        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; }
+        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; transition: 0.3s; }
+        
+        /* Success Animation Style */
+        #success-overlay { display: none; position: fixed; inset: 0; background: white; z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .checkmark-circle { width: 80px; height: 80px; position: relative; display: block; margin: 0 auto 20px; }
+        .checkmark-circle .background { width: 80px; height: 80px; border-radius: 50%; background: #22c55e; position: absolute; }
+        .checkmark-circle .check { width: 40px; height: 20px; border-left: 5px solid white; border-bottom: 5px solid white; position: absolute; left: 20px; top: 25px; transform: rotate(-45deg); stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw 0.6s ease forwards 0.3s; opacity: 0; }
+        @keyframes draw { to { stroke-dashoffset: 0; opacity: 1; } }
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         #confirmation-form { display: none; }
-        .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; outline: none; text-align: right; }
-        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
-        #receipt-preview { max-height: 180px; margin: 0 auto; display: none; border-radius: 10px; margin-top: 10px; }
+        .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; text-align: right; outline: none; }
+        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; }
+        #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
     </style>
 </head>
 <body>
 
+    <div id="success-overlay">
+        <div class="checkmark-circle">
+            <div class="background"></div>
+            <div class="check"></div>
+        </div>
+        <h2 class="text-2xl font-black text-slate-800 fade-in">تم الإرسال بنجاح!</h2>
+        <p class="text-slate-500 mt-2 px-10 fade-in" style="animation-delay: 0.2s;">تم استلام طلبك، ستتم مراجعته وإضافة الرصيد لحسابك في أقرب وقت.</p>
+        <button onclick="location.reload()" class="mt-8 text-blue-600 font-bold fade-in" style="animation-delay: 0.4s;">العودة للرئيسية</button>
+    </div>
+
     <div class="toolbar">
-        <a href="javascript:history.back()" class="back-btn">←</a>
+        <a href="javascript:history.back()" class="text-slate-300">←</a>
         <h1 class="header-title" id="bankNameTitle">CIH Bank</h1>
         <img src="https://i.postimg.cc/vcdZvwDq/cih.png" class="header-logo">
     </div>
 
     <main class="max-w-[500px] mx-auto pb-10">
-        <div class="middle-logo-container">
-            <img src="https://i.postimg.cc/rzQLyTX1/cih.png" class="middle-logo">
+        <div class="middle-logo-container flex justify-center my-6">
+            <img src="https://i.postimg.cc/rzQLyTX1/cih.png" class="h-10">
         </div>
 
         <div class="amount-info-card">
             <span class="amount-text" id="displayAmount">MAD 0.00</span>
-            <div class="account-id-text">Top up your account <span class="id-number" id="displayID">ID 00000000</span></div>
+            <div class="text-slate-400 text-xs font-bold mt-2">Top up your account <span class="text-slate-800" id="displayID">ID 00000000</span></div>
         </div>
 
-        <div id="bank-info-section">
-            <div class="transfer-details mt-5">
+        <div id="bank-info-section" class="px-4">
+            <div class="transfer-details">
                 <div class="info-row">
                     <div class="text-right">
-                        <span class="label">اسم المستفيد</span>
-                        <span class="value">MOHAMED *******</span>
+                        <span class="text-[10px] text-slate-400 font-extrabold block">اسم المستفيد</span>
+                        <span class="text-sm font-black text-slate-800">MOHAMED *******</span>
                     </div>
                     <button class="copy-btn" onclick="copyText('MOHAMED *******')">نسخ</button>
                 </div>
-                <hr class="my-3 border-gray-50">
+                <hr class="my-3 border-slate-50">
                 <div class="info-row">
                     <div class="text-right">
-                        <span class="label">رقم الحساب (RIB)</span>
-                        <span class="value">230 780 0000000000000000 00</span>
+                        <span class="text-[10px] text-slate-400 font-extrabold block">رقم الحساب (RIB)</span>
+                        <span class="text-sm font-black text-slate-800">230 780 0000000000000000 00</span>
                     </div>
                     <button class="copy-btn" onclick="copyText('230780000000000000000000')">نسخ</button>
                 </div>
             </div>
-            <p class="text-center text-gray-400 mt-4 text-[11px] font-bold px-10">يرجى إرسال المبلغ المكتوب أعلاه إلى هذا الحساب، ثم اضغط على زر التأكيد أسفله.</p>
-            <div class="px-5 mt-6"><button onclick="showForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button></div>
+            <p class="text-center text-slate-400 text-[10px] font-bold px-8 leading-relaxed">يرجى إرسال المبلغ المكتوب أعلاه، ثم اضغط على زر التأكيد.</p>
+            <button onclick="showForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button>
         </div>
 
         <div id="confirmation-form" class="px-5 mt-4 space-y-5">
             <div class="text-right">
-                <label class="text-[11px] font-black uppercase text-slate-400 block mb-2">الاسم الكامل للمرسل</label>
-                <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium">
+                <label class="text-[10px] font-black text-slate-400 block mb-2">الاسم الكامل للمرسل</label>
+                <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium font-bold">
             </div>
             <div class="text-right">
-                <label class="text-[11px] font-black uppercase text-slate-400 block mb-2">صورة الإيصال (Reçu)</label>
+                <label class="text-[10px] font-black text-slate-400 block mb-2">صورة الإيصال (Reçu)</label>
                 <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                    <div id="upload-placeholder"><span class="text-[11px] font-black text-slate-400">اضغط هنا لإرفاق صورة الوصل</span></div>
-                    <img id="receipt-preview" src="#"><input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
+                    <div id="upload-placeholder" class="text-slate-400 text-[10px] font-black">اضغط هنا لإرفاق صورة الوصل</div>
+                    <img id="receipt-preview" src="#">
+                    <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
                 </div>
             </div>
             <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn">إرسال الطلب للمراجعة</button>
@@ -87,45 +101,41 @@
     </main>
 
     <script>
-        /* التشفير الأساسي للحماية */
-        const _0x4f2a=['amount','get','displayAmount','innerText','toFixed','displayID','ID\x20','clipboard','writeText','then','تم\x20النسخ\x20بنجاح\x20!','none','block','receipt-preview','upload-placeholder','files','onloadend','readAsDataURL','F4c3accdf3f8b87d79a18836edbfdfde','https://api.imgbb.com/1/upload?key=','POST','json','Success','https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec'];
-        
+        const _0x1a2b=['amount','get','displayAmount','innerText','displayID','ID\x20','clipboard','writeText','then','Success','none','flex','receipt-preview','upload-placeholder','files','onloadend','readAsDataURL','F4c3accdf3f8b87d79a18836edbfdfde','https://api.imgbb.com/1/upload?key=','POST','json','https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec'];
         const params = new URLSearchParams(window.location.search);
-        const amountVal = params[_0x4f2a[1]](_0x4f2a[0]) || '0';
-        const idVal = params[_0x4f2a[1]]('id') || '00000000';
+        const amountVal = params[_0x1a2b[1]](_0x1a2b[0]) || '0';
+        const idVal = params[_0x1a2b[1]]('id') || '00000000';
 
-        document.getElementById(_0x4f2a[2])[_0x4f2a[3]] = `MAD ${parseFloat(amountVal)[_0x4f2a[4]](2)}`;
-        document.getElementById(_0x4f2a[5])[_0x4f2a[3]] = _0x4f2a[6] + idVal;
+        document.getElementById(_0x1a2b[2])[_0x1a2b[3]] = `MAD ${parseFloat(amountVal).toFixed(2)}`;
+        document.getElementById(_0x1a2b[4])[_0x1a2b[3]] = _0x1a2b[5] + idVal;
 
-        function copyText(t) { navigator[_0x4f2a[7]][_0x4f2a[8]](t)[_0x4f2a[9]](() => { alert(_0x4f2a[10]); }); }
-        function showForm() { document.getElementById('bank-info-section').style.display = _0x4f2a[11]; document.getElementById('confirmation-form').style.display = _0x4f2a[12]; }
-        
+        function copyText(t) { navigator[_0x1a2b[6]][_0x1a2b[7]](t)[_0x1a2b[8]](() => { alert("تم النسخ!"); }); }
+        function showForm() { document.getElementById('bank-info-section').style.display = _0x1a2b[10]; document.getElementById('confirmation-form').style.display = 'block'; }
         function previewFile() {
-            const p = document.getElementById(_0x4f2a[13]), h = document.getElementById(_0x4f2a[14]), f = document.getElementById('fileInput')[_0x4f2a[15]][0], r = new FileReader();
-            r[_0x4f2a[16]] = () => { p.src = r.result; p.style.display = _0x4f2a[12]; h.style.display = _0x4f2a[11]; };
-            if (f) r[_0x4f2a[17]](f);
+            const p = document.getElementById(_0x1a2b[12]), h = document.getElementById(_0x1a2b[13]), f = document.getElementById('fileInput')[_0x1a2b[14]][0], r = new FileReader();
+            r[_0x1a2b[15]] = () => { p.src = r.result; p.style.display = 'block'; h.style.display = _0x1a2b[10]; };
+            if (f) r[_0x1a2b[16]](f);
         }
 
         async function finalSubmit() {
             const n = document.getElementById('senderName').value, fi = document.getElementById('fileInput'), b = document.getElementById('submitBtn');
-            if(!n || !fi[_0x4f2a[15]][0]) { alert("يرجى ملء جميع الخانات !"); return; }
-            b.disabled = true; b.innerText = "جاري المعالجة...";
+            if(!n || !fi[_0x1a2b[14]][0]) return alert("املأ الخانات!");
+            b.disabled = true; b.innerText = "... جاري الإرسال";
 
             try {
-                const fd = new FormData(); fd.append("image", fi[_0x4f2a[15]][0]);
-                const iR = await fetch(_0x4f2a[19]+_0x4f2a[18], { method: _0x4f2a[20], body: fd });
-                const iD = await iR[_0x4f2a[21]]();
-                if (!iD.success) throw new Error();
-
-                await fetch(_0x4f2a[23], {
-                    method: _0x4f2a[20], mode: 'no-cors',
+                const fd = new FormData(); fd.append("image", fi[_0x1a2b[14]][0]);
+                const iR = await fetch(_0x1a2b[18]+_0x1a2b[17], { method: _0x1a2b[19], body: fd });
+                const iD = await iR[_0x1a2b[20]]();
+                
+                await fetch(_0x1a2b[21], {
+                    method: _0x1a2b[19], mode: 'no-cors',
                     body: JSON.stringify({ nom: n, montant: amountVal, id_client: idVal, recu_url: iD.data.url, methode: document.getElementById('bankNameTitle').innerText })
                 });
 
-                alert("تم إرسال طلبك بنجاح !");
-                window.location.href = "index.html";
+                // إظهار الأنميشن بدلاً من الانتقال لصفحة أخرى
+                document.getElementById('success-overlay').style.display = _0x1a2b[11];
             } catch (e) {
-                alert("حدث خطأ!"); b.disabled = false; b.innerText = "إرسال الطلب للمراجعة";
+                alert("خطأ!"); b.disabled = false; b.innerText = "إرسال الطلب للمراجعة";
             }
         }
     </script>
