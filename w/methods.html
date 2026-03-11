@@ -5,101 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إيداع | MOBCASH</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Noto Kufi Arabic', sans-serif; 
-            background-color: #f7f7f9; 
+            background-color: #ffffff; /* خلفية بيضاء صافية */
             color: #1a1a1a;
-            margin: 0; padding: 0;
+            margin: 0;
+            overflow-x: hidden;
         }
         
-        .method-card { 
-            background: white; 
-            border-radius: 1.2rem; 
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: row-reverse; 
-            align-items: center;
-            justify-content: flex-start;
-            padding: 12px 15px;
-            height: 85px; /* حجم كبير وواضح */
-            gap: 12px;
-        }
-        
-        .method-card:active { transform: scale(0.95); background: #f0f0f0; }
-        
-        .icon-img { 
-            width: 45px; /* أيقونات كبيرة */
-            height: 45px;
-            object-fit: contain; 
-            flex-shrink: 0;
-        }
-        
-        .bank-name {
-            font-size: 13px; /* خط واضح وكبير */
-            font-weight: 700;
-            color: #333;
-            text-align: right;
-            line-height: 1.3;
-        }
-
-        .section-header {
-            font-size: 16px;
-            font-weight: 800;
-            color: #1a1a1a;
-            margin: 25px 5px 15px 0;
-            display: block;
+        /* مقبض السحب العلوي */
+        .drag-handle {
+            width: 36px; height: 4px; background: #e2e8f0;
+            border-radius: 10px; margin: 12px auto 0;
         }
 
         .toolbar { 
             background: white; 
-            padding: 20px; 
+            padding: 15px 25px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
-            border-bottom: 1px solid #eee;
-            position: sticky; top: 0; z-index: 50;
         }
-        .header-title { font-size: 20px; font-weight: 800; }
-        .close-btn { font-size: 24px; color: #999; cursor: pointer; }
+        .header-title { font-size: 24px; font-weight: 900; }
+        .close-btn { font-size: 26px; color: #cbd5e1; cursor: pointer; }
+
+        /* البطاقة: مربع رمادي فاتح مع محاذاة لليمين */
+        .method-card { 
+            background: #f1f3f6; /* المربع الرمادي المطلوب */
+            border-radius: 1.2rem; 
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* دفع المحتوى لليمن */
+            padding: 15px 20px;
+            height: 105px; 
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .method-card:active { transform: scale(0.96); background: #e8ebf0; }
+        
+        /* حاوية المحتوى: لوغو فوق اسم */
+        .bank-content {
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            gap: 6px;
+            width: 100px;
+        }
+
+        .icon-container {
+            width: 100%;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-img { 
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .bank-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin: 20px 5px 10px 0;
+            display: block;
+        }
     </style>
 </head>
 <body class="antialiased">
 
+    <div class="drag-handle"></div>
+
     <div class="toolbar">
-        <span class="close-btn" onclick="window.parent.closeSheet()">✕</span>
+        <span class="close-btn" onclick="if(window.parent.closeSheet) window.parent.closeSheet();">✕</span>
         <h1 class="header-title">إيداع</h1>
     </div>
 
-    <main class="max-w-[500px] mx-auto px-4 pb-10">
+    <main class="max-w-[500px] mx-auto px-5 mt-4 pb-10">
         
-        <span class="section-header">تطبيقات بنكية</span>
-        <div class="grid grid-cols-2 gap-4">
+        <span class="section-label">البنوك والمؤسسات</span>
+        <div class="grid grid-cols-2 gap-3">
+            
             <div onclick="goToPayment('cih')" class="method-card">
-                <img src="https://i.postimg.cc/HjwnkGv2/cih.png" class="icon-img">
-                <span class="bank-name">CIH Bank</span>
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/rzQLyTX1/cih.png" class="icon-img"></div>
+                    <span class="bank-name">CIH Bank</span>
+                </div>
             </div>
+
+            <div onclick="goToPayment('cashplus')" class="method-card">
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/VSyxZLnb/cash-plus.png" class="icon-img"></div>
+                    <span class="bank-name">Cash Plus</span>
+                </div>
+            </div>
+
+            <div onclick="goToPayment('lbankalik')" class="method-card">
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/hhCHW0VF/lbankalik.png" class="icon-img"></div>
+                    <span class="bank-name">Lbanka lik</span>
+                </div>
+            </div>
+
+            <div onclick="goToPayment('boa')" class="method-card">
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/xky4sG0V/boa.png" class="icon-img"></div>
+                    <span class="bank-name">Bank Of Africa</span>
+                </div>
+            </div>
+
             <div onclick="goToPayment('chaabi')" class="method-card">
-                <img src="https://i.postimg.cc/PPyvgwvB/chaabi.png" class="icon-img">
-                <span class="bank-name">الشعبي</span>
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/v45qB7xy/chaabi.png" class="icon-img"></div>
+                    <span class="bank-name">Banque Populaire</span>
+                </div>
+            </div>
+
+            <div onclick="goToPayment('damane')" class="method-card">
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/QFZmRBYx/damane.png" class="icon-img"></div>
+                    <span class="bank-name">Damane Pay</span>
+                </div>
             </div>
         </div>
 
-        <span class="section-header">محافظ إلكترونية</span>
-        <div class="grid grid-cols-2 gap-4">
+        <span class="section-label">المحافظ الإلكترونية</span>
+        <div class="grid grid-cols-2 gap-3">
             <div onclick="goToPayment('orange')" class="method-card">
-                <img src="https://i.postimg.cc/d7yxNvNn/orange.png" class="icon-img">
-                <span class="bank-name">Orange</span>
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/d7yxNvNn/orange.png" class="icon-img"></div>
+                    <span class="bank-name">Orange Money</span>
+                </div>
             </div>
+
             <div onclick="goToPayment('inwi')" class="method-card">
-                <img src="https://i.postimg.cc/QHK1TtF6/inwi.png" class="icon-img">
-                <span class="bank-name">Inwi</span>
+                <div class="bank-content">
+                    <div class="icon-container"><img src="https://i.postimg.cc/QHK1TtF6/inwi.png" class="icon-img"></div>
+                    <span class="bank-name">Inwi Money</span>
+                </div>
             </div>
         </div>
 
-        </main>
+    </main>
 
     <script>
         function goToPayment(method) {
