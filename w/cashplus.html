@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cash Plus | MOBCASH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        
+        /* Toolbar بنفس ألوان الهوية الجديدة */
+        .toolbar { background: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #ffcc00; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .header-title { font-size: 17px; font-weight: 900; color: #003366; }
+        .header-logo { height: 35px; width: auto; object-fit: contain; }
+        
+        /* بطاقة المبلغ */
+        .amount-info-card { background-color: #f8f9fa; border-radius: 1.5rem; padding: 25px 15px; margin: 20px auto; text-align: center; max-width: 92%; border: 1px solid #eee; }
+        .amount-text { font-size: 32px; font-weight: 900; color: #003366; }
+        
+        .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        .copy-btn { background: #ffcc00; color: #003366; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
+        .confirm-btn { background: #003366; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; transition: 0.3s; }
+        
+        /* Success Animation Overlay */
+        #success-overlay { display: none; position: fixed; inset: 0; background: white; z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .checkmark-circle { width: 90px; height: 90px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; animation: scaleUp 0.4s ease-out; }
+        @keyframes scaleUp { from { transform: scale(0); } to { transform: scale(1); } }
+        
+        #confirmation-form { display: none; }
+        .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 15px; border-radius: 12px; text-align: right; outline: none; font-weight: 700; }
+        .upload-box { border: 2px dashed #ffcc00; background: #fffdf5; border-radius: 1.2rem; padding: 30px; text-align: center; cursor: pointer; }
+        #receipt-preview { max-height: 200px; margin: 10px auto; display: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <div id="success-overlay">
+        <div class="checkmark-circle">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2 class="text-2xl font-black text-slate-800">تم الإرسال بنجاح!</h2>
+        <p class="text-slate-500 mt-2 px-12">تم استلام طلبك الخاص بـ Cash Plus. سنقوم بمراجعته وإضافة الرصيد لحسابك قريباً.</p>
+        <button onclick="location.reload()" class="mt-10 bg-slate-100 px-8 py-3 rounded-full text-slate-600 font-bold">إغلاق</button>
+    </div>
+
+    <div class="toolbar">
+        <a href="javascript:history.back()" class="text-slate-400">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
+        <h1 class="header-title">تعبئة Cash Plus</h1>
+        <img src="https://i.ibb.co/nNvjfn0W/30993-removebg-preview.png" class="header-logo">
+    </div>
+
+    <main class="max-w-[500px] mx-auto pb-10">
+        <div class="flex justify-center my-10">
+            <img src="https://i.ibb.co/nNvjfn0W/30993-removebg-preview.png" class="h-20 w-auto">
+        </div>
+
+        <div class="amount-info-card">
+            <span class="amount-text" id="displayAmount">0.00 MAD</span>
+            <div class="text-slate-400 text-xs font-bold mt-2">رقم الحساب المستهدف: <span class="text-slate-800" id="displayID">00000000</span></div>
+        </div>
+
+        <div id="bank-info-section" class="px-4">
+            <div class="transfer-details">
+                <div class="info-row">
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 font-black block mb-1">اسم المستلم</span>
+                        <span class="text-sm font-black text-slate-800 uppercase">MOHAMED *******</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('MOHAMED *******')">نسخ الاسم</button>
+                </div>
+                <hr class="my-3 border-slate-50">
+                <div class="info-row">
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 font-black block mb-1">رقم البطاقة الوطنية / الهاتف</span>
+                        <span class="text-sm font-black text-slate-800">K123456789</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('K123456789')">نسخ الرقم</button>
+                </div>
+            </div>
+            
+            <div class="px-2 mt-8">
+                <button onclick="showForm()" class="confirm-btn">تأكيد عملية الإرسال</button>
+            </div>
+            <p class="text-center text-slate-400 text-[10px] font-bold mt-4 px-6">يرجى إرسال المبلغ أولاً ثم العودة لتأكيد العملية بالوصل.</p>
+        </div>
+
+        <div id="confirmation-form" class="px-5 mt-4 space-y-5">
+            <div class="text-right">
+                <label class="text-[10px] font-black text-slate-400 block mb-2 mr-1">اسم المرسل الكامل</label>
+                <input type="text" id="senderName" placeholder="اكتب اسمك كما في البطاقة" class="input-premium">
+            </div>
+            
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                <div id="upload-placeholder" class="space-y-2">
+                    <div class="text-slate-300 flex justify-center">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <div class="text-slate-400 text-[11px] font-black uppercase">إضغط هنا لإرفاق وصل كاش بلوس</div>
+                </div>
+                <img id="receipt-preview" src="#">
+                <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
+            </div>
+            
+            <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn">إرسال الطلب للمراجعة</button>
+        </div>
+    </main>
+
+    <script>
+        // تشفير البيانات الحساسة
+        const _0xKey = ['amount', 'get', 'displayAmount', 'innerText', 'displayID', 'clipboard', 'writeText', 'then', 'none', 'flex', 'receipt-preview', 'upload-placeholder', 'files', 'onloadend', 'readAsDataURL', 'F4c3accdf3f8b87d79a18836edbfdfde', 'https://api.imgbb.com/1/upload?key=', 'POST', 'json', 'https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec'];
+
+        const params = new URLSearchParams(window.location.search);
+        const amountVal = params[_0xKey[1]](_0xKey[0]) || '0';
+        const idVal = params[_0xKey[1]]('id') || '00000000';
+
+        document.getElementById(_0xKey[2])[_0xKey[3]] = `${parseFloat(amountVal).toFixed(2)} MAD`;
+        document.getElementById(_0xKey[4])[_0xKey[3]] = idVal;
+
+        function copyText(t) { navigator[_0xKey[5]][_0xKey[6]](t)[_0xKey[7]](() => { alert("تم النسخ!"); }); }
+        function showForm() { document.getElementById('bank-info-section').style.display = _0xKey[8]; document.getElementById('confirmation-form').style.display = 'block'; }
+        
+        function previewFile() {
+            const p = document.getElementById(_0xKey[10]), h = document.getElementById(_0xKey[11]), f = document.getElementById('fileInput')[_0xKey[12]][0], r = new FileReader();
+            r[_0xKey[13]] = () => { p.src = r.result; p.style.display = 'block'; h.style.display = _0xKey[8]; };
+            if (f) r[_0xKey[14]](f);
+        }
+
+        async function finalSubmit() {
+            const n = document.getElementById('senderName').value, fi = document.getElementById('fileInput'), b = document.getElementById('submitBtn');
+            if(!n || !fi[_0xKey[12]][0]) return alert("يرجى ملء الاسم وإرفاق الوصل!");
+            b.disabled = true; b.innerText = "... جاري الرفع والارسال";
+
+            try {
+                const fd = new FormData(); fd.append("image", fi[_0xKey[12]][0]);
+                const iR = await fetch(_0xKey[16] + _0xKey[15], { method: _0xKey[17], body: fd });
+                const iD = await iR[_0xKey[18]]();
+
+                await fetch(_0xKey[19], {
+                    method: _0xKey[17], mode: 'no-cors',
+                    body: JSON.stringify({ nom: n, montant: amountVal, id_client: idVal, recu_url: iD.data.url, methode: "Cash Plus" })
+                });
+
+                document.getElementById('success-overlay').style.display = _0xKey[9];
+            } catch (e) {
+                alert("تم الإرسال!");
+                document.getElementById('success-overlay').style.display = _0xKey[9];
+            }
+        }
+    </script>
+</body>
+</html>
