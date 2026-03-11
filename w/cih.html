@@ -2,217 +2,182 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>دفع CIH Bank | MOBCASH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Noto Kufi Arabic', sans-serif; 
-            background-color: #ffffff; 
-            margin: 0;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; -webkit-tap-highlight-color: transparent; }
+        
+        /* الشريط العلوي */
         .toolbar { 
-            background: white; 
-            padding: 15px 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between;
-            border-bottom: 1px solid #f1f5f9;
+            background: white; padding: 15px 20px; display: flex; align-items: center; 
+            justify-content: space-between; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 50; 
         }
         .header-title { font-size: 18px; font-weight: 900; color: #1e293b; }
-        .back-btn { font-size: 24px; color: #64748b; cursor: pointer; text-decoration: none; }
+        .header-logo { height: 26px; width: auto; object-fit: contain; }
+        .back-btn { font-size: 11px; color: #cbd5e1; cursor: pointer; text-decoration: none; }
 
-        .amount-info-card {
-            background-color: #f1f3f6; 
-            border-radius: 1.5rem; 
-            padding: 25px 20px;
-            margin: 20px auto;
-            text-align: center;
-            max-width: 92%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+        /* اللوغو في وسط الصفحة */
+        .middle-logo-container { display: flex; justify-content: center; margin-top: 25px; margin-bottom: 20px; }
+        .middle-logo { height: 35px; width: auto; object-fit: contain; }
+
+        /* البطاقة الرمادية (المبلغ والـ ID) */
+        .amount-info-card { 
+            background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; 
+            margin: 0 auto; text-align: center; max-width: 92%; display: flex; 
+            flex-direction: column; align-items: center; gap: 8px; 
         }
+        .amount-text { font-size: 34px; font-weight: 900; color: #1e293b; }
+        .account-id-text { font-size: 12px; color: #64748b; font-weight: 700; }
+        .id-number { font-weight: 800; color: #1e293b; }
 
-        .amount-text { font-size: 34px; font-weight: 900; color: #0f172a; }
-        .account-id-text { font-size: 13px; color: #64748b; font-weight: 500; }
-        .id-number { font-weight: 800; color: #0f172a; }
-
-        .transfer-details {
-            background: #ffffff;
-            border: 1px solid #f1f5f9;
-            border-radius: 1.2rem;
-            padding: 20px;
-            margin: 10px auto;
-            max-width: 92%;
-        }
-
+        /* تفاصيل الحساب */
+        .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
         .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .info-row:last-child { margin-bottom: 0; }
-        .label { font-size: 12px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 4px; }
-        .value { font-size: 14px; font-weight: 800; color: #1e293b; }
+        .label { font-size: 12px; color: #94a3b8; font-weight: 800; display: block; margin-bottom: 4px; }
+        .value { font-size: 13px; font-weight: 800; color: #1e293b; direction: ltr; }
 
-        .copy-btn {
-            background: #f1f5f9; color: #475569; padding: 6px 14px;
-            border-radius: 8px; font-size: 11px; font-weight: 800;
-            cursor: pointer; border: none;
+        .copy-btn { 
+            background: #f1f3f6; color: #475569; padding: 6px 14px; 
+            border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; 
         }
 
-        .confirm-btn {
-            background: #1e293b; color: white; width: 92%; padding: 18px;
-            border-radius: 1rem; font-weight: 900; font-size: 15px;
-            margin: 20px auto; display: block; text-align: center;
-            border: none; cursor: pointer;
+        .confirm-btn { 
+            background: #1e293b; color: white; width: 100%; padding: 18px; 
+            border-radius: 1rem; font-weight: 900; font-size: 15px; margin: 20px auto; 
+            display: block; text-align: center; border: none; cursor: pointer; 
         }
-
-        /* --- الإضافات الجديدة للنموذج --- */
-        #confirmation-form { display: none; } /* مخفي في البداية */
-
-        .input-premium {
-            background: #f8fafc; border: 2px solid #f1f5f9;
-            width: 100%; padding: 16px; border-radius: 12px;
-            font-size: 14px; font-weight: 700; outline: none; text-align: right;
-        }
-        .input-premium:focus { border-color: #1e293b; }
-
-        .upload-box {
-            border: 2px dashed #cbd5e1; background: #f8fafc;
-            border-radius: 1.2rem; padding: 30px; text-align: center;
-            cursor: pointer; position: relative;
-        }
-        .upload-box:hover { border-color: #1e293b; }
         
-        #receipt-preview {
-            max-height: 150px; margin: 0 auto; display: none; border-radius: 8px;
-        }
+        #confirmation-form { display: none; }
+        .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; outline: none; text-align: right; }
+        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
+        #receipt-preview { max-height: 180px; margin: 0 auto; display: none; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <div class="toolbar">
         <a href="javascript:history.back()" class="back-btn">←</a>
-        <h1 class="header-title">الدفع عبر CIH Bank</h1>
-        <div style="width: 24px;"></div>
+        <h1 class="header-title" id="bankNameTitle">CIH Bank</h1>
+        <img src="https://i.postimg.cc/vcdZvwDq/cih.png" class="header-logo">
     </div>
 
-    <main class="max-w-[500px] mx-auto">
-        
-        <div class="flex justify-center mt-6">
-            <img src="https://i.postimg.cc/rzQLyTX1/cih.png" class="h-10 object-contain">
+    <main class="max-w-[500px] mx-auto pb-10">
+        <div class="middle-logo-container">
+            <img src="https://i.postimg.cc/rzQLyTX1/cih.png" class="middle-logo">
         </div>
 
         <div class="amount-info-card">
             <span class="amount-text" id="displayAmount">MAD 0.00</span>
-            <div class="account-id-text">
-                Top up your account <span class="id-number" id="displayID">ID 00000000</span>
-            </div>
+            <div class="account-id-text">Top up your account <span class="id-number" id="displayID">ID 00000000</span></div>
         </div>
 
         <div id="bank-info-section">
-            <div class="transfer-details">
+            <div class="transfer-details mt-5">
                 <div class="info-row">
-                    <div>
+                    <div class="text-right">
                         <span class="label">اسم المستفيد</span>
-                        <span class="value" id="holderName">MOHAMED *******</span>
+                        <span class="value">MOHAMED *******</span>
                     </div>
                     <button class="copy-btn" onclick="copyText('MOHAMED *******')">نسخ</button>
                 </div>
                 <hr class="my-3 border-gray-50">
                 <div class="info-row">
-                    <div>
+                    <div class="text-right">
                         <span class="label">رقم الحساب (RIB)</span>
-                        <span class="value" id="ribNumber">230 780 0000000000000000 00</span>
+                        <span class="value">230 780 0000000000000000 00</span>
                     </div>
                     <button class="copy-btn" onclick="copyText('230780000000000000000000')">نسخ</button>
                 </div>
             </div>
-
-            <p class="text-center text-gray-400 mt-4 text-[11px] font-bold px-8">
-                يرجى إرسال المبلغ المكتوب أعلاه إلى هذا الحساب، ثم اضغط على زر التأكيد أسفله.
-            </p>
-
-            <button onclick="showForm()" class="confirm-btn uppercase tracking-wider">
-                أرسلت المبلغ، تأكيد
-            </button>
+            <p class="text-center text-gray-400 mt-4 text-[11px] font-bold px-10">يرجى إرسال المبلغ المكتوب أعلاه إلى هذا الحساب، ثم اضغط على زر التأكيد أسفله.</p>
+            <div class="px-5 mt-6">
+                <button onclick="showForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button>
+            </div>
         </div>
 
-        <div id="confirmation-form" class="px-5 mt-6 space-y-6 pb-10">
-            <div>
-                <label class="text-[11px] font-black uppercase text-slate-400 mr-1 block mb-2">الإسم الكامل للمرسل</label>
-                <input type="text" id="senderName" placeholder="أدخل اسمك كما في الحساب البنكي" class="input-premium">
+        <div id="confirmation-form" class="px-5 mt-4 space-y-5">
+            <div class="text-right">
+                <label class="text-[11px] font-black uppercase text-slate-400 block mb-2">الاسم الكامل للمرسل</label>
+                <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium">
             </div>
-
-            <div>
-                <label class="text-[11px] font-black uppercase text-slate-400 mr-1 block mb-2">صورة إيصال التحويل (Reçu)</label>
+            <div class="text-right">
+                <label class="text-[11px] font-black uppercase text-slate-400 block mb-2">صورة الإيصال (Reçu)</label>
                 <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                    <div id="upload-placeholder">
-                        <svg class="mx-auto h-10 w-10 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span class="text-xs font-bold text-slate-400">اضغط هنا لإرفاق صورة الوصل</span>
-                    </div>
-                    <img id="receipt-preview" src="#" alt="معاينة الوصل">
+                    <div id="upload-placeholder"><span class="text-[11px] font-black text-slate-400">اضغط هنا لإرفاق صورة الوصل</span></div>
+                    <img id="receipt-preview" src="#">
                     <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
                 </div>
             </div>
-
-            <button onclick="finalSubmit()" class="confirm-btn">إرسال الطلب للمراجعة</button>
+            <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn">إرسال الطلب للمراجعة</button>
         </div>
-
     </main>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const amount = params.get('amount');
-        const userId = params.get('id');
+        const amountVal = params.get('amount') || '0';
+        const idVal = params.get('id') || '00000000';
 
-        if (amount) document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amount).toFixed(2)}`;
-        if (userId) document.getElementById('displayID').innerText = `ID ${userId}`;
+        document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amountVal).toFixed(2)}`;
+        document.getElementById('displayID').innerText = `ID ${idVal}`;
 
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => { alert("تم النسخ بنجاح"); });
-        }
-
-        // إظهار النموذج وإخفاء معلومات البنك
-        function showForm() {
-            document.getElementById('bank-info-section').style.display = 'none';
-            document.getElementById('confirmation-form').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        // معاينة الصورة المرفوعة
+        function copyText(text) { navigator.clipboard.writeText(text).then(() => { alert("تم النسخ بنجاح !"); }); }
+        function showForm() { document.getElementById('bank-info-section').style.display = 'none'; document.getElementById('confirmation-form').style.display = 'block'; }
         function previewFile() {
             const preview = document.getElementById('receipt-preview');
             const placeholder = document.getElementById('upload-placeholder');
             const file = document.getElementById('fileInput').files[0];
             const reader = new FileReader();
-
-            reader.onloadend = function () {
-                preview.src = reader.result;
-                preview.style.display = 'block';
-                placeholder.style.display = 'none';
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            reader.onloadend = () => { preview.src = reader.result; preview.style.display = 'block'; placeholder.style.display = 'none'; }
+            if (file) reader.readAsDataURL(file);
         }
 
-        function finalSubmit() {
+        async function finalSubmit() {
             const name = document.getElementById('senderName').value;
-            const file = document.getElementById('fileInput').files[0];
+            const fileInput = document.getElementById('fileInput');
+            const btn = document.getElementById('submitBtn');
+            const API_KEY_IMGBB = 'F4c3accdf3f8b87d79a18836edbfdfde'; 
+            const bankName = document.getElementById('bankNameTitle').innerText;
 
-            if(!name || !file) {
-                alert("يرجى إدخال الإسم ورفع صورة الوصل");
-                return;
+            if(!name || !fileInput.files[0]) { alert("يرجى ملء جميع الخانات !"); return; }
+
+            btn.disabled = true;
+            btn.innerText = "جاري رفع الصورة...";
+
+            try {
+                // 1. الرفع لـ ImgBB
+                const formData = new FormData();
+                formData.append("image", fileInput.files[0]);
+                const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY_IMGBB}`, { method: "POST", body: formData });
+                const imgData = await imgRes.json();
+                
+                if (!imgData.success) throw new Error();
+
+                btn.innerText = "جاري إرسال البيانات...";
+
+                // 2. الإرسال لـ Google Sheets
+                const payload = {
+                    nom: name,
+                    montant: amountVal,
+                    id_client: idVal,
+                    recu_url: imgData.data.url,
+                    methode: bankName // سيتم إرسال اسم البنك آلياً
+                };
+
+                await fetch('https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+
+                alert("تم إرسال طلبك بنجاح !");
+                window.location.href = "index.html";
+            } catch (e) {
+                alert("حدث خطأ، حاول مرة أخرى.");
+                btn.disabled = false;
+                btn.innerText = "إرسال الطلب للمراجعة";
             }
-
-            alert("شكراً لك! جاري مراجعة طلبك.");
-            // هنا يمكنك إضافة كود الإرسال إلى تلجرام
         }
     </script>
 </body>
