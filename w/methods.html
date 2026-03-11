@@ -11,36 +11,34 @@
             font-family: 'Noto Kufi Arabic', sans-serif; 
             background-color: #f7f7f9; 
             color: #1a1a1a;
+            margin: 0; padding: 0;
         }
         
-        /* تكبير البطاقة ونظام الشبكة */
         .method-card { 
             background: white; 
             border-radius: 1.2rem; 
             transition: all 0.2s ease;
             box-shadow: 0 3px 6px rgba(0,0,0,0.03);
             display: flex;
-            flex-direction: row-reverse; /* الأيقونة على اليمين */
+            flex-direction: row-reverse; 
             align-items: center;
             justify-content: flex-start;
             padding: 12px 15px;
-            height: 80px; /* كبرنا الطول من 65 لـ 80 */
+            height: 85px; /* حجم كبير وواضح */
             gap: 12px;
         }
         
         .method-card:active { transform: scale(0.95); background: #f0f0f0; }
         
-        /* تكبير الأيقونات */
         .icon-img { 
-            width: 42px; /* كبرنا العرض من 32 لـ 42 */
-            height: 42px;
+            width: 45px; /* أيقونات كبيرة */
+            height: 45px;
             object-fit: contain; 
             flex-shrink: 0;
         }
         
-        /* تكبير الخط */
         .bank-name {
-            font-size: 12.5px; /* كبرنا الخط من 10.5 لـ 12.5 */
+            font-size: 13px; /* خط واضح وكبير */
             font-weight: 700;
             color: #333;
             text-align: right;
@@ -48,52 +46,44 @@
         }
 
         .section-header {
-            font-size: 15px; /* كبرنا عنوان القسم */
+            font-size: 16px;
             font-weight: 800;
             color: #1a1a1a;
-            margin: 28px 5px 15px 0;
+            margin: 25px 5px 15px 0;
             display: block;
         }
 
         .toolbar { 
-            background: transparent; 
-            padding: 25px 20px 10px 20px; 
+            background: white; 
+            padding: 20px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            position: sticky; top: 0; z-index: 50;
         }
-        .header-title { font-size: 22px; font-weight: 800; }
-        .close-btn { font-size: 26px; color: #999; cursor: pointer; }
+        .header-title { font-size: 20px; font-weight: 800; }
+        .close-btn { font-size: 24px; color: #999; cursor: pointer; }
     </style>
 </head>
-<body class="antialiased text-right pb-10">
+<body class="antialiased">
 
     <div class="toolbar">
         <span class="close-btn" onclick="window.parent.closeSheet()">✕</span>
         <h1 class="header-title">إيداع</h1>
     </div>
 
-    <main class="max-w-[500px] mx-auto px-4">
+    <main class="max-w-[500px] mx-auto px-4 pb-10">
         
         <span class="section-header">تطبيقات بنكية</span>
-        <div class="grid grid-cols-2 gap-4"> <div onclick="goToPayment('cih')" class="method-card">
+        <div class="grid grid-cols-2 gap-4">
+            <div onclick="goToPayment('cih')" class="method-card">
                 <img src="https://i.postimg.cc/HjwnkGv2/cih.png" class="icon-img">
                 <span class="bank-name">CIH Bank</span>
             </div>
-
             <div onclick="goToPayment('chaabi')" class="method-card">
                 <img src="https://i.postimg.cc/PPyvgwvB/chaabi.png" class="icon-img">
-                <span class="bank-name">Banque Populaire</span>
-            </div>
-
-            <div onclick="goToPayment('boa')" class="method-card">
-                <img src="https://i.postimg.cc/mhFwW8T3/boa.png" class="icon-img">
-                <span class="bank-name">Bank of Africa</span>
-            </div>
-
-            <div onclick="goToPayment('lbankalik')" class="method-card">
-                <img src="https://i.postimg.cc/4HCp3RX2/lbankalik.png" class="icon-img">
-                <span class="bank-name">Lbankalik</span>
+                <span class="bank-name">الشعبي</span>
             </div>
         </div>
 
@@ -101,29 +91,15 @@
         <div class="grid grid-cols-2 gap-4">
             <div onclick="goToPayment('orange')" class="method-card">
                 <img src="https://i.postimg.cc/d7yxNvNn/orange.png" class="icon-img">
-                <span class="bank-name">Orange Money</span>
+                <span class="bank-name">Orange</span>
             </div>
-
             <div onclick="goToPayment('inwi')" class="method-card">
                 <img src="https://i.postimg.cc/QHK1TtF6/inwi.png" class="icon-img">
-                <span class="bank-name">Inwi Money</span>
+                <span class="bank-name">Inwi</span>
             </div>
         </div>
 
-        <span class="section-header">وسائل دفع أخرى</span>
-        <div class="grid grid-cols-2 gap-4">
-            <div onclick="goToPayment('cashplus')" class="method-card">
-                <img src="https://i.postimg.cc/MnsRQQWb/cashplus.png" class="icon-img">
-                <span class="bank-name">Cash Plus</span>
-            </div>
-
-            <div onclick="goToPayment('damane')" class="method-card">
-                <img src="https://i.postimg.cc/N9hGQb1Z/damane.png" class="icon-img">
-                <span class="bank-name">Damane Pay</span>
-            </div>
-        </div>
-
-    </main>
+        </main>
 
     <script>
         function goToPayment(method) {
@@ -132,4 +108,3 @@
     </script>
 </body>
 </html>
-
