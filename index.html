@@ -20,6 +20,14 @@
         /* أنيميشن الدوران */
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s linear infinite; margin-left: 12px; }
+
+        /* --- إضافات الـ Bottom Sheet --- */
+        #payment-sheet { 
+            transform: translateY(100%); 
+            transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .sheet-open { transform: translateY(0) !important; }
+        .overlay-open { opacity: 1 !important; visibility: visible !important; }
     </style>
 </head>
 <body class="antialiased text-right">
@@ -110,6 +118,12 @@
         </div>
     </main>
 
+    <div id="payment-overlay" class="fixed inset-0 bg-black/60 z-[100] invisible opacity-0 transition-all duration-300 backdrop-blur-sm" onclick="closeSheet()"></div>
+    <div id="payment-sheet" class="fixed bottom-0 left-0 right-0 z-[101] bg-[#f3f4f6] rounded-t-[2.5rem] h-[85vh] shadow-2xl overflow-hidden">
+        <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mt-4 mb-2"></div>
+        <iframe src="w/methods.html" class="w-full h-full border-none"></iframe>
+    </div>
+
     <script>
         function validateInput(input) {
             input.value = input.value.replace(/[^0-9]/g, '');
@@ -133,6 +147,20 @@
             }
         }
 
+        // دالة فتح القائمة المنبثقة
+        function openSheet() {
+            document.getElementById('payment-overlay').classList.add('overlay-open');
+            document.getElementById('payment-sheet').classList.add('sheet-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // دالة إغلاق القائمة
+        function closeSheet() {
+            document.getElementById('payment-overlay').classList.remove('overlay-open');
+            document.getElementById('payment-sheet').classList.remove('sheet-open');
+            document.body.style.overflow = 'auto';
+        }
+
         document.getElementById('pay-form').onsubmit = function(e) {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
@@ -143,10 +171,13 @@
             loader.style.display = 'block';
             text.innerText = 'جاري المعالجة...';
 
-            // التحويل الآن يذهب لصفحة اختيار البنك
+            // تفعيل الأنميشن بعد المعالجة
             setTimeout(() => {
-                window.location.href = 'w/methods.html';
-            }, 2000);
+                btn.disabled = false;
+                loader.style.display = 'none';
+                text.innerText = 'إرسال طلب الشحن';
+                openSheet();
+            }, 1500);
         };
     </script>
 </body>
