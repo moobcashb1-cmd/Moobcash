@@ -1,0 +1,145 @@
+<!DOCTYPE html> 
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chaabi Pay | MOBCASH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; overflow-x: hidden; }
+        
+        .toolbar { 
+            background: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            flex-direction: row-reverse; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #f1f5f9; 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+        }
+        
+        .back-btn { font-size: 22px; font-weight: bold; color: #1e293b; text-decoration: none; }
+        .mobcash-logo { height: 20px; width: auto; }
+        .header-title { font-size: 18px; font-weight: 900; color: #1e293b; position: absolute; left: 50%; transform: translateX(-50%); }
+
+        .amount-info-card { background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; margin: 15px auto; text-align: center; max-width: 92%; }
+        .amount-text { font-size: 34px; font-weight: 900; color: #1e293b; }
+        .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
+        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; }
+        
+        #confirmation-form { display: none; }
+        .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; text-align: right; outline: none; }
+        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
+        #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
+        .swal2-popup { border-radius: 1.5rem !important; font-family: 'Noto Kufi Arabic', sans-serif !important; }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <img src="https://i.postimg.cc/vcdZvwDq/cih.png" class="mobcash-logo" alt="MOBCASH PAY">
+        
+        <h1 class="header-title">Chaabi Pay</h1>
+        
+        <a href="javascript:history.back()" class="back-btn">→</a>
+    </div>
+
+    <main class="max-w-[500px] mx-auto pb-10">
+        <div class="middle-logo-container flex justify-center my-6">
+            <img src="https://i.ibb.co/2Yf8WW34/chaabi-pay.png" class="h-16">
+        </div>
+
+        <div class="amount-info-card">
+            <span class="amount-text" id="displayAmount">MAD 0.00</span>
+            <div class="text-slate-400 text-xs font-bold mt-2">Top up your account <span class="text-slate-800" id="displayID">ID 00000000</span></div>
+        </div>
+
+        <div id="bank-info-section" class="px-4">
+            <div class="transfer-details">
+                <div class="info-row">
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 font-extrabold block uppercase">اسم المستفيد</span>
+                        <span class="text-sm font-black text-slate-800 uppercase">MOHAMED *******</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('MOHAMED *******')">نسخ</button>
+                </div>
+                <hr class="my-3 border-slate-50">
+                <div class="info-row">
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 font-extrabold block uppercase">رقم الهاتف (Chaabi Pay)</span>
+                        <span class="text-sm font-black text-slate-800">0600000000</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyText('0600000000')">نسخ</button>
+                </div>
+            </div>
+            <p class="text-center text-slate-400 text-[10px] font-bold px-8 leading-relaxed mb-4 uppercase">يرجى إرسال المبلغ عبر تطبيق Chaabi Pay، ثم اضغط على تأكيد وإرفاق الوصل.</p>
+            <button onclick="showForm()" class="confirm-btn uppercase">أرسلت المبلغ، تأكيد</button>
+        </div>
+
+        <div id="confirmation-form" class="px-5 mt-4 space-y-5">
+            <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium font-bold">
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                <div id="upload-placeholder" class="text-slate-400 text-[10px] font-black uppercase">اضغط لإرفاق وصل Chaabi Pay</div>
+                <img id="receipt-preview" src="#">
+                <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
+            </div>
+            <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn uppercase">إرسال للمراجعة</button>
+        </div>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const amountVal = params.get('amount') || '0';
+        const idVal = params.get('id') || '00000000';
+
+        document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amountVal).toFixed(2)}`;
+        document.getElementById('displayID').innerText = 'ID ' + idVal;
+
+        function copyText(t) {
+            navigator.clipboard.writeText(t).then(() => {
+                Swal.fire({ title: 'تم النسخ!', icon: 'success', timer: 1500, showConfirmButton: false });
+            });
+        }
+
+        function showForm() {
+            document.getElementById('bank-info-section').style.display = 'none';
+            document.getElementById('confirmation-form').style.display = 'block';
+        }
+
+        function previewFile() {
+            const p = document.getElementById('receipt-preview'), h = document.getElementById('upload-placeholder'), f = document.getElementById('fileInput').files[0], r = new FileReader();
+            r.onloadend = () => { p.src = r.result; p.style.display = 'block'; h.style.display = 'none'; };
+            if (f) r.readAsDataURL(f);
+        }
+
+        async function finalSubmit() {
+            const n = document.getElementById('senderName').value, fi = document.getElementById('fileInput'), b = document.getElementById('submitBtn');
+            if(!n || !fi.files[0]) {
+                Swal.fire({ title: 'عذراً!', text: 'يرجى إدخال اسمك وصورة الوصل!', icon: 'warning', confirmButtonColor: '#1e293b' });
+                return;
+            }
+            b.disabled = true; b.innerText = "... جاري الإرسال";
+            try {
+                const fd = new FormData(); fd.append("image", fi.files[0]);
+                const iR = await fetch('https://api.imgbb.com/1/upload?key=F4c3accdf3f8b87d79a18836edbfdfde', { method: 'POST', body: fd });
+                const iD = await iR.json();
+                await fetch('https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec', {
+                    method: 'POST', mode: 'no-cors',
+                    body: JSON.stringify({ nom: n, montant: amountVal, id_client: idVal, recu_url: iD.data.url, methode: "Chaabi Pay" })
+                });
+                Swal.fire({ title: 'تم الإرسال!', text: 'ستتم مراجعة طلبك فوراً', icon: 'success', confirmButtonColor: '#22c55e' }).then(() => { location.reload(); });
+            } catch (e) { 
+                Swal.fire({ title: 'خطأ!', text: 'حدث مشكل في الإرسال، حاول ثانية', icon: 'error' });
+                b.disabled = false; b.innerText = "إرسال للمراجعة"; 
+            }
+        }
+    </script>
+</body>
+</html>
