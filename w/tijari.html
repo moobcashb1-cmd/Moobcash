@@ -5,50 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Attijariwafa Bank | MOBCASH</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; overflow-x: hidden; }
-        .toolbar { background: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 50; }
-        .header-title { font-size: 18px; font-weight: 900; color: #1e293b; }
-        .header-logo { height: 35px; width: auto; } /* تعديل بسيط ليتناسب مع لوغو التجاري */
+        
+        .toolbar { 
+            background: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            flex-direction: row-reverse; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #f1f5f9; 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+        }
+        
+        .back-btn { font-size: 22px; font-weight: bold; color: #1e293b; text-decoration: none; }
+        .mobcash-logo { height: 20px; width: auto; }
+        .header-title { font-size: 18px; font-weight: 900; color: #1e293b; position: absolute; left: 50%; transform: translateX(-50%); }
+
         .amount-info-card { background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; margin: 15px auto; text-align: center; max-width: 92%; }
         .amount-text { font-size: 34px; font-weight: 900; color: #1e293b; }
         .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
         .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; }
-        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; transition: 0.3s; }
+        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
+        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; }
         
-        /* Success Animation Style */
-        #success-overlay { display: none; position: fixed; inset: 0; background: white; z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .checkmark-circle { width: 80px; height: 80px; position: relative; display: block; margin: 0 auto 20px; }
-        .checkmark-circle .background { width: 80px; height: 80px; border-radius: 50%; background: #22c55e; position: absolute; }
-        .checkmark-circle .check { width: 40px; height: 20px; border-left: 5px solid white; border-bottom: 5px solid white; position: absolute; left: 20px; top: 25px; transform: rotate(-45deg); stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw 0.6s ease forwards 0.3s; opacity: 0; }
-        @keyframes draw { to { stroke-dashoffset: 0; opacity: 1; } }
-        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         #confirmation-form { display: none; }
         .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; text-align: right; outline: none; }
-        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; }
+        .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
         #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
+        .swal2-popup { border-radius: 1.5rem !important; font-family: 'Noto Kufi Arabic', sans-serif !important; }
     </style>
 </head>
 <body>
 
-    <div id="success-overlay">
-        <div class="checkmark-circle">
-            <div class="background"></div>
-            <div class="check"></div>
-        </div>
-        <h2 class="text-2xl font-black text-slate-800 fade-in">تم الإرسال بنجاح!</h2>
-        <p class="text-slate-500 mt-2 px-10 fade-in" style="animation-delay: 0.2s;">تم استلام طلبك الخاص بـ Attijariwafa Bank، ستتم مراجعته في أقرب وقت.</p>
-        <button onclick="location.reload()" class="mt-8 text-blue-600 font-bold fade-in" style="animation-delay: 0.4s;">العودة للرئيسية</button>
-    </div>
-
     <div class="toolbar">
-        <a href="javascript:history.back()" class="text-slate-300">←</a>
-        <h1 class="header-title" id="bankNameTitle">Attijariwafa Bank</h1>
-        <img src="https://i.ibb.co/YgSyyTw/30944-removebg-preview.png" class="header-logo">
+        <img src="https://i.postimg.cc/vcdZvwDq/cih.png" class="mobcash-logo" alt="MOBCASH PAY">
+        
+        <h1 class="header-title">Attijari Bank</h1>
+        
+        <a href="javascript:history.back()" class="back-btn">→</a>
     </div>
 
     <main class="max-w-[500px] mx-auto pb-10">
@@ -79,63 +79,62 @@
                     <button class="copy-btn" onclick="copyText('007000000000000000000000')">نسخ</button>
                 </div>
             </div>
-            <p class="text-center text-slate-400 text-[10px] font-bold px-8 leading-relaxed">يرجى إرسال المبلغ المكتوب أعلاه عبر تطبيق البنك، ثم اضغط على زر التأكيد.</p>
             <button onclick="showForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button>
         </div>
 
         <div id="confirmation-form" class="px-5 mt-4 space-y-5">
-            <div class="text-right">
-                <label class="text-[10px] font-black text-slate-400 block mb-2">الاسم الكامل للمرسل</label>
-                <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium font-bold">
+            <input type="text" id="senderName" placeholder="أدخل اسمك الكامل" class="input-premium font-bold">
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                <div id="upload-placeholder" class="text-slate-400 text-[10px] font-black uppercase">اضغط لإرفاق وصل التجاري وفابنك</div>
+                <img id="receipt-preview" src="#">
+                <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
             </div>
-            <div class="text-right">
-                <label class="text-[10px] font-black text-slate-400 block mb-2">صورة الإيصال (Reçu)</label>
-                <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                    <div id="upload-placeholder" class="text-slate-400 text-[10px] font-black uppercase">اضغط لإرفاق وصل التجاري وفابنك</div>
-                    <img id="receipt-preview" src="#">
-                    <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewFile()">
-                </div>
-            </div>
-            <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn uppercase">إرسال الطلب للمراجعة</button>
+            <button id="submitBtn" onclick="finalSubmit()" class="confirm-btn uppercase">إرسال للمراجعة</button>
         </div>
     </main>
 
     <script>
-        const _0x1a2b=['amount','get','displayAmount','innerText','displayID','ID\x20','clipboard','writeText','then','Success','none','flex','receipt-preview','upload-placeholder','files','onloadend','readAsDataURL','F4c3accdf3f8b87d79a18836edbfdfde','https://api.imgbb.com/1/upload?key=','POST','json','https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec'];
         const params = new URLSearchParams(window.location.search);
-        const amountVal = params[_0x1a2b[1]](_0x1a2b[0]) || '0';
-        const idVal = params[_0x1a2b[1]]('id') || '00000000';
+        const amountVal = params.get('amount') || '0';
+        const idVal = params.get('id') || '00000000';
 
-        document.getElementById(_0x1a2b[2])[_0x1a2b[3]] = `MAD ${parseFloat(amountVal).toFixed(2)}`;
-        document.getElementById(_0x1a2b[4])[_0x1a2b[3]] = _0x1a2b[5] + idVal;
+        document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amountVal).toFixed(2)}`;
+        document.getElementById('displayID').innerText = 'ID ' + idVal;
 
-        function copyText(t) { navigator[_0x1a2b[6]][_0x1a2b[7]](t)[_0x1a2b[8]](() => { alert("تم النسخ!"); }); }
-        function showForm() { document.getElementById('bank-info-section').style.display = _0x1a2b[10]; document.getElementById('confirmation-form').style.display = 'block'; }
+        function copyText(t) {
+            navigator.clipboard.writeText(t).then(() => {
+                Swal.fire({ title: 'تم النسخ!', icon: 'success', timer: 1500, showConfirmButton: false });
+            });
+        }
+
+        function showForm() {
+            document.getElementById('bank-info-section').style.display = 'none';
+            document.getElementById('confirmation-form').style.display = 'block';
+        }
+
         function previewFile() {
-            const p = document.getElementById(_0x1a2b[12]), h = document.getElementById(_0x1a2b[13]), f = document.getElementById('fileInput')[_0x1a2b[14]][0], r = new FileReader();
-            r[_0x1a2b[15]] = () => { p.src = r.result; p.style.display = 'block'; h.style.display = _0x1a2b[10]; };
-            if (f) r[_0x1a2b[16]](f);
+            const p = document.getElementById('receipt-preview'), h = document.getElementById('upload-placeholder'), f = document.getElementById('fileInput').files[0], r = new FileReader();
+            r.onloadend = () => { p.src = r.result; p.style.display = 'block'; h.style.display = 'none'; };
+            if (f) r.readAsDataURL(f);
         }
 
         async function finalSubmit() {
             const n = document.getElementById('senderName').value, fi = document.getElementById('fileInput'), b = document.getElementById('submitBtn');
-            if(!n || !fi[_0x1a2b[14]][0]) return alert("املأ الخانات!");
+            if(!n || !fi.files[0]) {
+                Swal.fire({ title: 'عذراً!', text: 'املأ الخانات!', icon: 'warning', confirmButtonColor: '#1e293b' });
+                return;
+            }
             b.disabled = true; b.innerText = "... جاري الإرسال";
-
             try {
-                const fd = new FormData(); fd.append("image", fi[_0x1a2b[14]][0]);
-                const iR = await fetch(_0x1a2b[18]+_0x1a2b[17], { method: _0x1a2b[19], body: fd });
-                const iD = await iR[_0x1a2b[20]]();
-                
-                await fetch(_0x1a2b[21], {
-                    method: _0x1a2b[19], mode: 'no-cors',
+                const fd = new FormData(); fd.append("image", fi.files[0]);
+                const iR = await fetch('https://api.imgbb.com/1/upload?key=F4c3accdf3f8b87d79a18836edbfdfde', { method: 'POST', body: fd });
+                const iD = await iR.json();
+                await fetch('https://script.google.com/macros/s/AKfycbzcM6Flyp0ZiSlHa-MPS9bEWTjbXLaxm7guUpNXeA8veO3sVkannzeFTgFDi-58ILe2/exec', {
+                    method: 'POST', mode: 'no-cors',
                     body: JSON.stringify({ nom: n, montant: amountVal, id_client: idVal, recu_url: iD.data.url, methode: "Attijari Bank" })
                 });
-
-                document.getElementById('success-overlay').style.display = _0x1a2b[11];
-            } catch (e) {
-                alert("خطأ!"); b.disabled = false; b.innerText = "إرسال الطلب للمراجعة";
-            }
+                Swal.fire({ title: 'تم الإرسال!', text: 'ستتم المراجعة فوراً', icon: 'success', confirmButtonColor: '#22c55e' }).then(() => { location.reload(); });
+            } catch (e) { b.disabled = false; b.innerText = "إرسال للمراجعة"; }
         }
     </script>
 </body>
