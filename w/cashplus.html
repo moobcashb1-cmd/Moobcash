@@ -10,11 +10,12 @@
     <style>
         body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #ffffff; margin: 0; overflow-x: hidden; }
         
-        /* تعديل الهيدر حسب طلبك */
+        /* التعديل النهائي للهيدر */
         .toolbar { 
             background: white; 
             padding: 15px 20px; 
             display: flex; 
+            flex-direction: row-reverse; /* لعكس العناصر برمجياً */
             align-items: center; 
             justify-content: space-between; 
             border-bottom: 1px solid #f1f5f9; 
@@ -23,10 +24,17 @@
             z-index: 50; 
         }
         
-        /* اللوغو على اليسار */
-        .mobcash-logo { height: 22px; width: auto; }
+        /* سهم الرجوع يظهر على اليسار */
+        .back-btn { 
+            font-size: 22px; 
+            font-weight: bold; 
+            color: #1e293b; 
+            text-decoration: none;
+        }
+
+        /* اللوغو يظهر على اليمين */
+        .mobcash-logo { height: 20px; width: auto; }
         
-        /* العنوان في الوسط */
         .header-title { 
             font-size: 18px; 
             font-weight: 900; 
@@ -34,16 +42,6 @@
             position: absolute; 
             left: 50%; 
             transform: translateX(-50%); 
-        }
-        
-        /* سهم الرجوع على اليمين وباين */
-        .back-btn { 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #1e293b; 
-            text-decoration: none;
-            display: flex;
-            align-items: center;
         }
 
         .amount-info-card { background-color: #f1f3f6; border-radius: 1.5rem; padding: 25px 15px; margin: 15px auto; text-align: center; max-width: 92%; }
