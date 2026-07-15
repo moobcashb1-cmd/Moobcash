@@ -58,7 +58,6 @@
             background: #f8fafc;
             border-radius: 1rem;
             margin-bottom: 15px;
-            cursor: pointer;
             border: 1px solid #e2e8f0;
             flex-direction: row-reverse;
         }
@@ -72,7 +71,7 @@
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute;
-            cursor: pointer;
+            cursor: not-allowed;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #ccc;
             transition: .4s;
@@ -127,13 +126,13 @@
                 </div>
 
                 <div class="alert-box mb-4">
-                    <p class="text-xs font-black text-slate-700">⚠️ يجب تفعيل خيار “Emettre ce virement en instantané” (التحويل الفوري) في تطبيق البنك قبل إرسال التحويل، لضمان معالجة العملية فورًا</p>
+                    <p class="text-xs font-black text-slate-700">⚠️ يجب تفعيل خيار “Emettre ce virement ce instantané” (التحويل الفوري) في تطبيق البنك قبل إرسال التحويل، لضمان معالجة العملية فورًا</p>
                 </div>
 
-                <div class="instant-switch-container" onclick="document.getElementById('instantCheckbox').click()">
-                    <span class="text-sm font-bold text-slate-700">Emettre ce virement en instantané</span>
+                <div class="instant-switch-container">
+                    <span class="text-sm font-bold text-slate-700">Emettre ce virement ce instantané</span>
                     <label class="switch">
-                        <input type="checkbox" id="instantCheckbox" checked>
+                        <input type="checkbox" id="instantCheckbox" checked onclick="return false;">
                         <span class="slider"></span>
                     </label>
                 </div>
