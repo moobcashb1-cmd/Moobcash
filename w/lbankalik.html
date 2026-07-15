@@ -39,6 +39,17 @@
         .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
         #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
         .swal2-popup { border-radius: 1.5rem !important; font-family: 'Noto Kufi Arabic', sans-serif !important; }
+
+        .virement-card { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 16px; margin: 0 auto 15px auto; max-width: 92%; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        
+        .alert-box { background-color: #fffbeb; border: 1px solid #fcd34d; border-radius: 1rem; padding: 15px; margin: 0 auto 15px auto; max-width: 92%; color: #92400e; }
+        .alert-text { font-size: 13px; font-weight: 800; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -62,6 +73,11 @@
         </div>
 
         <div id="bank-info-section" class="px-4">
+            <div class="alert-box">
+                <p class="alert-text">❗❗ يرجى إتمام التحويل خلال 10 دقائق باستخدام البيانات أدناه. </p>
+                <p class="alert-text mt-2">⚠️ اختر "Virement instantané"  (تحويل فوري)  في تطبيق البنك لضمان معالجة العملية فورياً.</p>
+            </div>
+
             <div class="transfer-details">
                 <div class="info-row">
                     <div class="text-right">
@@ -79,8 +95,29 @@
                     <button class="copy-btn" onclick="copyText('853780262215066608687643')">نسخ</button>
                 </div>
             </div>
-            <p class="text-center text-slate-400 text-[10px] font-bold px-8 leading-relaxed mb-4 uppercase">يرجى تحويل المبلغ عبر تطبيق L'banka lik، ثم قم بإرفاق وصل التحويل.</p>
-            <button onclick="showForm()" class="confirm-btn uppercase">أرسلت المبلغ، تأكيد</button>
+
+            <div class="virement-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-black text-slate-900">Virement instantané</div>
+                            <div id="coutText" class="text-xs font-bold text-rose-500">Coût: 5 DH</div>
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="virementToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="text-[11px] text-slate-500 font-bold mt-3 leading-relaxed">
+                    Choisissez la rapidité ! Ce virement sera reçu par votre bénéficiaire en quelques secondes.
+                </div>
+            </div>
+
+            <button onclick="checkAndShowForm()" class="confirm-btn uppercase">أرسلت المبلغ، تأكيد</button>
         </div>
 
         <div id="confirmation-form" class="px-5 mt-4 space-y-5">
@@ -102,10 +139,28 @@
         document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amountVal).toFixed(2)}`;
         document.getElementById('displayID').innerText = 'ID ' + idVal;
 
+        const amountNum = parseFloat(amountVal);
+        const coutText = document.getElementById('coutText');
+        coutText.innerText = amountNum > 200 ? "Coût: 17.60 DH" : "Coût: 5 DH";
+
         function copyText(t) {
             navigator.clipboard.writeText(t).then(() => {
                 Swal.fire({ title: 'تم النسخ!', icon: 'success', timer: 1500, showConfirmButton: false });
             });
+        }
+
+        function checkAndShowForm() {
+            const toggle = document.getElementById('virementToggle');
+            if (!toggle.checked) {
+                Swal.fire({ 
+                    title: 'تنبيه!', 
+                    text: 'يجب تفعيل خيار Virement instantané أولاً من تطبيق L\'banka lik ثم تفعيله هنا!', 
+                    icon: 'warning', 
+                    confirmButtonColor: '#1e293b' 
+                });
+                return;
+            }
+            showForm();
         }
 
         function showForm() {
