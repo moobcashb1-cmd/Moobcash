@@ -39,6 +39,58 @@
         .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
         #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
         .swal2-popup { border-radius: 1.5rem !important; font-family: 'Noto Kufi Arabic', sans-serif !important; }
+        
+        .alert-box { 
+            background: #fffbeb; 
+            border: 1px solid #fde68a; 
+            border-radius: 1rem; 
+            padding: 15px; 
+            margin: 15px auto; 
+            max-width: 92%; 
+            text-align: center; 
+        }
+        
+        .instant-switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 1rem;
+            margin-bottom: 15px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            flex-direction: row-reverse;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #1e293b; }
+        input:checked + .slider:before { transform: translateX(20px); }
     </style>
 </head>
 <body>
@@ -53,33 +105,54 @@
 
     <main class="max-w-[500px] mx-auto pb-10">
         <div class="middle-logo-container flex justify-center my-6">
-            <img src="https://i.ibb.co/8Dzjn3t4/boa.png" class="h-14">
+            <img src="https://i.ibb.co/d46N0hzK/IMG-9963.png" class="h-14">
         </div>
 
         <div class="amount-info-card">
             <span class="amount-text" id="displayAmount">MAD 0.00</span>
             <div class="text-slate-400 text-xs font-bold mt-2">Top up your account <span class="text-slate-800" id="displayID">ID 00000000</span></div>
         </div>
-
+        
         <div id="bank-info-section" class="px-4">
             <div class="transfer-details">
+                <div class="mb-6 space-y-4">
+                    <img src="https://i.ibb.co/rKVSfyVZ/620-F0-ED4-8-A97-41-E8-875-C-D28190-E303-C1.png" alt="instruction" class="w-full rounded-2xl shadow-md">
+                    
+                    <div class="text-center">
+                        <p class="text-sm font-black text-slate-800 mb-3">كيفية الإيداع عبر Bank of Africa</p>
+                        <div class="relative w-full pt-[56.25%] overflow-hidden rounded-2xl shadow-md">
+                            <iframe src="https://player.vimeo.com/video/1210171381" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instant-switch-container" onclick="document.getElementById('instantCheckbox').click()">
+                    <span class="text-sm font-bold text-slate-700">Emettre ce virement en instantané</span>
+                    <label class="switch">
+                        <input type="checkbox" id="instantCheckbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <hr class="my-5 border-slate-100">
+
                 <div class="info-row">
                     <div class="text-right">
                         <span class="text-[10px] text-slate-400 font-extrabold block uppercase">اسم المستفيد</span>
-                        <span class="text-sm font-black text-slate-800 uppercase">basma sr</span>
+                        <span class="text-sm font-black text-slate-800 uppercase">Lina Tamri</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('basma sr')">نسخ</button>
+                    <button class="copy-btn" onclick="copyText('Lina Tamri')">نسخ</button>
                 </div>
                 <hr class="my-3 border-slate-50">
                 <div class="info-row">
                     <div class="text-right">
                         <span class="text-[10px] text-slate-400 font-extrabold block uppercase">رقم الحساب (RIB)</span>
-                        <span class="text-sm font-black text-slate-800 uppercase">837780002484818830667757</span>
+                        <span class="text-sm font-black text-slate-800 uppercase">853780262344048875774506</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('837780002484818830667757')">نسخ</button>
+                    <button class="copy-btn" onclick="copyText('853780262344048875774506')">نسخ</button>
                 </div>
             </div>
-            <p class="text-center text-slate-400 text-[10px] font-bold px-8 leading-relaxed mb-4 uppercase">يرجى إرسال المبلغ عبر تطبيق BMCE / BOA، ثم اضغط على تأكيد وإرفاق الوصل.</p>
+            
             <button onclick="showForm()" class="confirm-btn uppercase">أرسلت المبلغ، تأكيد</button>
         </div>
 
