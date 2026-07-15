@@ -31,23 +31,33 @@
         .amount-text { font-size: 34px; font-weight: 900; color: #1e293b; }
         .transfer-details { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 20px 18px; margin: 15px auto; max-width: 92%; }
         .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .copy-btn { background: #f1f3f6; color: #475569; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
-        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; }
+        .copy-btn { background: #1e293b; color: white; padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; border: none; cursor: pointer; }
+        .confirm-btn { background: #1e293b; color: white; width: 100%; padding: 18px; border-radius: 1rem; font-weight: 900; font-size: 15px; margin-top: 10px; border: none; cursor: pointer; transition: opacity 0.3s; }
+        .confirm-btn:disabled { background: #94a3b8; cursor: not-allowed; }
         
         #confirmation-form { display: none; }
         .input-premium { background: #f8fafc; border: 2px solid #f1f5f9; width: 100%; padding: 14px; border-radius: 12px; text-align: right; outline: none; }
         .upload-box { border: 2px dashed #cbd5e1; background: #f8fafc; border-radius: 1.2rem; padding: 25px; text-align: center; cursor: pointer; }
         #receipt-preview { max-height: 180px; margin: 10px auto; display: none; border-radius: 10px; }
         .swal2-popup { border-radius: 1.5rem !important; font-family: 'Noto Kufi Arabic', sans-serif !important; }
+
+        .virement-card { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.2rem; padding: 16px; margin: 0 auto 15px auto; max-width: 92%; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        
+        .alert-box { background-color: #fffbeb; border: 1px solid #fcd34d; border-radius: 1rem; padding: 15px; margin: 0 auto 15px auto; max-width: 92%; color: #92400e; }
+        .alert-text { font-size: 13px; font-weight: 800; line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <div class="toolbar">
         <img src="https://i.postimg.cc/vcdZvwDq/cih.png" class="mobcash-logo" alt="MOBCASH PAY">
-        
         <h1 class="header-title">Attijari Bank</h1>
-        
         <a href="javascript:history.back()" class="back-btn">→</a>
     </div>
 
@@ -68,7 +78,7 @@
                         <span class="text-[10px] text-slate-400 font-extrabold block uppercase">اسم المستفيد</span>
                         <span class="text-sm font-black text-slate-800 uppercase">Rayan Hachmi</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('Rayan Hachmi')">نسخ</button>
+                    <button class="copy-btn" onclick="copyText('Rayan Hachmi', 'اسم المستفيد')">نسخ</button>
                 </div>
                 <hr class="my-3 border-slate-50">
                 <div class="info-row">
@@ -76,10 +86,37 @@
                         <span class="text-[10px] text-slate-400 font-extrabold block uppercase">رقم الحساب (RIB)</span>
                         <span class="text-sm font-black text-slate-800">853780262233524306269888</span>
                     </div>
-                    <button class="copy-btn" onclick="copyText('853780262233524306269888')">نسخ</button>
+                    <button class="copy-btn" onclick="copyText('853780262233524306269888', 'رقم الحساب')">نسخ</button>
                 </div>
             </div>
-            <button onclick="showForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button>
+
+            <div class="alert-box">
+                <p class="alert-text">❗❗ قبل تقديم طلبك، يُرجى إتمام التحويل خلال 10 دقائق باستخدام البيانات التالية.</p>
+                <p class="alert-text mt-2">❗❗ اختر تحويل فوري (Virement instantané) عند إجراء التحويل من تطبيق البنك، ثم اضغط على “أرسلت المبلغ، تأكيد”.</p>
+            </div>
+
+            <div class="virement-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-black text-slate-900">Virement instantané</div>
+                            <div id="coutText" class="text-xs font-bold text-rose-500">Coût: 5 DH</div>
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="virementToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="text-[11px] text-slate-500 font-bold mt-3 leading-relaxed">
+                    Choisissez la rapidité ! Ce virement sera reçu par votre bénéficiaire en quelques secondes.
+                </div>
+            </div>
+
+            <button id="mainConfirmBtn" onclick="checkAndShowForm()" class="confirm-btn">أرسلت المبلغ، تأكيد</button>
         </div>
 
         <div id="confirmation-form" class="px-5 mt-4 space-y-5">
@@ -101,10 +138,34 @@
         document.getElementById('displayAmount').innerText = `MAD ${parseFloat(amountVal).toFixed(2)}`;
         document.getElementById('displayID').innerText = 'ID ' + idVal;
 
-        function copyText(t) {
+        const amountNum = parseFloat(amountVal);
+        const coutText = document.getElementById('coutText');
+        coutText.innerText = amountNum < 200 ? "Coût: 5 DH" : "Coût: 17.60 DH";
+
+        function copyText(t, label) {
             navigator.clipboard.writeText(t).then(() => {
-                Swal.fire({ title: 'تم النسخ!', icon: 'success', timer: 1500, showConfirmButton: false });
+                Swal.fire({
+                    title: 'تم النسخ!',
+                    html: `تم نسخ <b>${label}</b>.<br><br>تذكر: اختر <b>Virement instantané</b> في تطبيق البنك لإتمام العملية بسرعة!`,
+                    icon: 'success',
+                    confirmButtonText: 'فهمت',
+                    confirmButtonColor: '#1e293b'
+                });
             });
+        }
+
+        function checkAndShowForm() {
+            const toggle = document.getElementById('virementToggle');
+            if (!toggle.checked) {
+                Swal.fire({ 
+                    title: 'تنبيه!', 
+                    text: 'يجب تفعيل خيار Virement instantané أولاً من تطبيق بنك التجاري وفابنك ثم تفعيله هنا!', 
+                    icon: 'warning', 
+                    confirmButtonColor: '#1e293b' 
+                });
+                return;
+            }
+            showForm();
         }
 
         function showForm() {
