@@ -72,6 +72,11 @@
         </div>
 
         <div id="bank-info-section" class="px-4">
+            <div class="alert-box">
+                <p class="alert-text">❗❗ يرجى إتمام التحويل خلال 10 دقائق باستخدام البيانات أدناه. </p>
+                <p class="alert-text mt-2">⚠️ اختر "Virement instantané"  (تحويل فوري)  في تطبيق البنك لضمان معالجة العملية فورياً.</p>
+            </div>
+
             <div class="transfer-details">
                 <div class="info-row">
                     <div class="text-right">
@@ -88,11 +93,6 @@
                     </div>
                     <button class="copy-btn" onclick="copyText('853780262233524306269888', 'رقم الحساب')">نسخ</button>
                 </div>
-            </div>
-
-            <div class="alert-box">
-                <p class="alert-text">❗❗ قبل تقديم طلبك، يُرجى إتمام التحويل خلال 10 دقائق باستخدام البيانات التالية.</p>
-                <p class="alert-text mt-2">❗❗ اختر تحويل فوري (Virement instantané) عند إجراء التحويل من تطبيق البنك، ثم اضغط على “أرسلت المبلغ، تأكيد”.</p>
             </div>
 
             <div class="virement-card">
@@ -140,7 +140,7 @@
 
         const amountNum = parseFloat(amountVal);
         const coutText = document.getElementById('coutText');
-        coutText.innerText = amountNum < 200 ? "Coût: 5 DH" : "Coût: 17.60 DH";
+        coutText.innerText = amountNum > 200 ? "Coût: 17.60 DH" : "Coût: 5 DH";
 
         function copyText(t, label) {
             navigator.clipboard.writeText(t).then(() => {
