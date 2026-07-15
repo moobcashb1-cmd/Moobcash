@@ -74,7 +74,7 @@
         <div id="bank-info-section" class="px-4">
             <div class="alert-box">
                 <p class="alert-text">❗❗ يرجى إتمام التحويل خلال 10 دقائق باستخدام البيانات أدناه. </p>
-                <p class="alert-text mt-2">⚠️ اختر "Virement instantané"  (تحويل فوري)  في تطبيق البنك لضمان معالجة العملية فورياً.</p>
+                <p class="alert-text mt-2">️ ️ ⚠️ يجب تفعيل خيار “Virement instantané” (التحويل الفوري) في تطبيق البنك قبل إرسال التحويل، لضمان معالجة العملية فورًا</p>
             </div>
 
             <div class="transfer-details">
@@ -146,7 +146,7 @@
             navigator.clipboard.writeText(t).then(() => {
                 Swal.fire({
                     title: 'تم النسخ!',
-                    html: `تم نسخ <b>${label}</b>.<br><br>تذكر: اختر <b>Virement instantané</b> في تطبيق البنك لإتمام العملية بسرعة!`,
+                    html: `تم نسخ <b>${label}</b>.<br><br>تذكر: يجب تفعيل خيار <b>Virement instantané</b> في تطبيق البنك لإتمام العملية بسرعة!`,
                     icon: 'success',
                     confirmButtonText: 'فهمت',
                     confirmButtonColor: '#1e293b'
