@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOBCASH | وكيل شحن معتمد</title>
@@ -47,7 +47,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="1XBET" class="hidden" checked onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.ibb.co/3YjthCY7/1xbet.png" class="platform-img">
+                            <img src="https://i.ibb.co/MyB5Hvqp/IMG-7755.png" class="platform-img">
                             <span class="platform-label uppercase">1XBET</span>
                         </div>
                     </label>
@@ -55,7 +55,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="BETWINNER" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/k25Lt9jP/betwinner.png" class="platform-img">
+                            <img src="https://i.ibb.co/LzWnKPnD/IMG-7758.png" class="platform-img">
                             <span class="platform-label uppercase">BETWINNER</span>
                         </div>
                     </label>
@@ -63,7 +63,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="MEGAPARI" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/LnWGfwGr/megapari.png" class="platform-img">
+                            <img src="https://i.ibb.co/kVrzZV23/IMG-7760.png" class="platform-img">
                             <span class="platform-label uppercase">MEGAPARI</span>
                         </div>
                     </label>
@@ -71,7 +71,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="MELBET" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.ibb.co/Y43xFp2x/Melbet-Logo-300x172.webp" class="platform-img">
+                            <img src="https://i.ibb.co/svmfSYdF/IMG-7759.webp" class="platform-img">
                             <span class="platform-label uppercase">MELBET</span>
                         </div>
                     </label>
@@ -79,7 +79,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="GOBET" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/mhNJrVYd/goobet.png" class="platform-img">
+                            <img src="https://i.ibb.co/2YYMJk0x/IMG-7761.png" class="platform-img">
                             <span class="platform-label uppercase">GOOOBET</span>
                         </div>
                     </label>
@@ -87,8 +87,32 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="site" value="MYSTAKE" class="hidden" onchange="updateLabel(this.value)">
                         <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
-                            <img src="https://i.postimg.cc/s1wm8LPL/mystake.png" class="platform-img">
+                            <img src="https://i.ibb.co/v4bjtL4x/IMG-7762.png" class="platform-img">
                             <span class="platform-label uppercase">MYSTAKE</span>
+                        </div>
+                    </label>
+                    
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="LINEBET" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.ibb.co/pBwYcn5g/IMG-7728.png" class="platform-img">
+                            <span class="platform-label uppercase">LINEBET</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="STAKE" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+    <img src="https://i.ibb.co/gMmkQpSH/IMG-7771.jpg" class="platform-img" alt="IMG-7771">
+    <span class="platform-label uppercase">STAKE</span>
+                        </div>
+                    </label>
+
+                    <label class="cursor-pointer">
+                        <input type="radio" name="site" value="1WIN" class="hidden" onchange="updateLabel(this.value)">
+                        <div class="platform-btn p-4 rounded-3xl flex flex-col items-center justify-center">
+                            <img src="https://i.ibb.co/Fq5cKhds/IMG-7774.png" class="platform-img" alt="IMG 7774">
+                            <span class="platform-label uppercase">1WIN</span>
                         </div>
                     </label>
                 </div>
@@ -131,7 +155,7 @@
         function updateLabel(platform) {
             const label = document.getElementById('account-label');
             const input = document.getElementById('account-input');
-            if (platform === 'MYSTAKE') {
+            if (platform === 'MYSTAKE' || platform === 'STAKE') {
                 label.innerText = 'Wallet Address Tether USD (ERC20)';
                 input.placeholder = 'أدخل عنوان المحفظة';
                 input.oninput = null;
